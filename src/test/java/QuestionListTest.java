@@ -1,19 +1,20 @@
-import Pages.HomePage;
+import pages.HomePage;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import static constants.URLs.HOME_PAGE;
 
 @RunWith(Parameterized.class)
 public class QuestionListTest extends BaseTest{
     private final int questionCounter;
-    private final String questionText;
-    private final String questionAnswer;
+    private final String expectedQuestion;
+    private final String expectedAnswer;
 
     public QuestionListTest(int questionCounter, String questionText, String questionAnswer) {
        this.questionCounter = questionCounter; // номер вопроса
-       this.questionText = questionText; // Текст вопроса
-       this.questionAnswer = questionAnswer; // Текст выпадающего текста
+       this.expectedQuestion = questionText; // Текст вопроса
+       this.expectedAnswer = questionAnswer; // Текст выпадающего текста
     }
     @Parameterized.Parameters
     public static Object[][] getListData() {
@@ -30,16 +31,14 @@ public class QuestionListTest extends BaseTest{
     }
 
     @Test
-    public void checkQuestionList() {
+    public void questListTest() {
         HomePage homePageObj = new HomePage(driver);
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+        driver.get(HOME_PAGE);
         homePageObj.acceptCookies();
         homePageObj.questionClick(questionCounter);
         homePageObj.questionGetText(questionCounter);
         homePageObj.questionGetAnswer(questionCounter);
-        Assert.assertEquals(questionText, homePageObj.getQuestionText);
-        Assert.assertEquals(questionAnswer, homePageObj.getQuestionAnswer);
+        Assert.assertEquals(expectedQuestion, homePageObj.resultText);
+        Assert.assertEquals(expectedAnswer, homePageObj.resultAnswer);
     }
-
-
 }

@@ -1,4 +1,4 @@
-package Pages;
+package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,28 +9,29 @@ import static constants.Colours.GREY;
 public class OrderPage {
 
     private WebDriver driver;
+    boolean actual;
 
     public OrderPage(WebDriver driver) {
         this.driver = driver;
     }
     // Поле "Имя"
-    private By firstNameField = By.xpath(".//div[@class='Order_Form__17u6u']/div[1]/input");
+    private By firstNameField = By.xpath(".//div[text()='Введите корректное имя']/parent::div/input");
     // Поле "Фамилия"
-    private By secondNameField = By.xpath(".//div[@class='Order_Form__17u6u']/div[2]/input");
+    private By secondNameField = By.xpath(".//input[@placeholder='* Фамилия']");
     // Поле "Адрес"
-    private By adressField = By.xpath(".//div[@class='Order_Form__17u6u']/div[3]/input");
+    private By adressField = By.xpath(".//input[@placeholder='* Адрес: куда привезти заказ']");
     // Поле "Станция метро"
     private By subwayStationField = By.xpath(".//div[@class='select-search__value']/input");
     // Выпадающий список станций
     private By getSubwayStation = By.xpath(".//div[@class='select-search__select']//div");
     // Поле "Телефон"
-    private By phoneNumberField = By.xpath(".//div[@class='Order_Form__17u6u']/div[5]/input");
+    private By phoneNumberField = By.xpath(".//input[@placeholder='* Телефон: на него позвонит курьер']");
     // Кнопка "Далее"
     private By nextButton = By.xpath(".//div[@class='Order_NextButton__1_rCA']/button");
     // Поле "Когда привезти"
     private  By deliveryDateField = By.xpath(".//div[@class='Order_MixedDatePicker__3qiay']/div/div/input");
     // Кнопка "Следующий месяц"
-    private By nextMonthButton = By.xpath(".//div[@class='react-datepicker-popper']//button[2]");
+    private By nextMonthButton = By.xpath(".//div[@class='react-datepicker-popper']//button[text()='Next Month']");
     // Выбор недели
     private By weekSelection = By.className("react-datepicker__week");
     // Выбор дня
@@ -93,7 +94,6 @@ public class OrderPage {
     // Выбор дня
     public void dayOfWeekSelection(int weekCount, int dayOfWeekCount) {
         driver.findElements(weekSelection).get(weekCount).findElements(daySelection).get(dayOfWeekCount).click();
-
     }
     // Клик по полю "Срок аренды"
     public void rentPeriodClick() {
@@ -121,7 +121,8 @@ public class OrderPage {
         driver.findElement(yesButton).click();
     }
     // Проверка оформления заказа
-    public void orderSuccessCheck() {
-        driver.findElement(orderSuccess).isEnabled();
+    public boolean orderSuccessCheck() {
+        actual = driver.findElement(orderSuccess).isEnabled();
+        return actual;
     }
 }
